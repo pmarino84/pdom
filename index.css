@@ -1,0 +1,45 @@
+html,
+body,
+.app,
+.app-header,
+.app-header__title,
+.timer,
+.todo-list,
+.todo-list__item {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.bg-red {
+  background-color: red;
+}
+
+.bg-green {
+  background-color: green;
+}
+
+.app {
+  height: 100vh;
+}
+
+.app-header__title {
+  margin: 0;
+  padding: 8px 16px;
+  text-align: center;
+}
+
+.timer {
+  padding: 16px;
+  font-weight: 500;
+  font-size: 2rem;
+}
+
+.app--stopped  .app-header__title {
+  color: rgba(255, 0, 0, .9);
+}
