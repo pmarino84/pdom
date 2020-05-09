@@ -25,7 +25,21 @@ function batchAttributesChanges(prev, next, el, queue) {
     const o = prev[name]
     const n = next[name]
     if (!n) queue.push(patchRemoveAttr(name, el))
-    else if (!o || n !== o) queue.push(patchSetAttr(name, n, el))
+    else if (!o) {
+      if (n !== o) {
+        const nType = typeof n
+        const oType = typeof o
+        if (nType !== oType) {
+          queue.push(patchSetAttr(name, n, el))
+        } else if (nType === 'function') {
+          let nStr = n.toString()
+          let oStr = o.toString()
+          if (nStr !== oStr) {
+            queue.push(patchSetAttr(name, n, el))
+          }
+        }
+      }
+    }
   })
 }
 
