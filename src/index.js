@@ -1,3 +1,7 @@
+import render from './pdom/render'
+import App from './app'
+import './index.css'
+
 function getCurrentTime() {
   const d = new Date()
   return `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
@@ -18,7 +22,7 @@ function run(container) {
   return () => clearInterval(intervalId)
 }
 
-window.stopApp = () => {}
+window.stopApp = () => { }
 
 window.addEventListener('load', () => {
   window.stopApp = run(document.getElementById('root'))

@@ -1,8 +1,8 @@
-const CREATE_NODE = 'CREATE_NODE'
-const REPLACE_NODE = 'REPLACE_NODE'
-const REMOVE_NODE = 'REMOVE_NODE'
-const SET_ATTR = 'SET_ATTR'
-const REMOVE_ATTR = 'REMOVE_ATTR'
+export const CREATE_NODE = 'CREATE_NODE'
+export const REPLACE_NODE = 'REPLACE_NODE'
+export const REMOVE_NODE = 'REMOVE_NODE'
+export const SET_ATTR = 'SET_ATTR'
+export const REMOVE_ATTR = 'REMOVE_ATTR'
 
 const patchCreateNode = (node, el) => ({ type: CREATE_NODE, payload: { node, el } })
 const patchRemoveNode = (node, el) => ({ type: REMOVE_NODE, payload: { node, el } })
@@ -33,7 +33,7 @@ function batchChildrenChanges(prev, next, el, queue = []) {
   const oLen = prev.length
   const nLen = next.length
   const len = Math.max(oLen, nLen)
-  for(let i = 0; i < len; i++) {
+  for (let i = 0; i < len; i++) {
     traverse(prev[i], next[i], el, queue, i)
   }
   // if (oLen === nLen) {
@@ -64,3 +64,5 @@ function batch(prev, next, container) {
 
   return queue
 }
+
+export default batch

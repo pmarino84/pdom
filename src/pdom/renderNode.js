@@ -1,11 +1,13 @@
-function parseAttributeName(name) {
+// import { v4 } from 'uuid'
+
+export function parseAttributeName(name) {
   let parsed = name
   if (name === 'className') parsed = 'class'
   else if (name === 'htmlFor') parsed = 'for'
   return parsed
 }
 
-function setAttribute(el, attrName, value) {
+export function setAttribute(el, attrName, value) {
   const name = parseAttributeName(attrName)
   if (name === 'onSubmit') {
     // el.setAttribute(name, value)
@@ -38,7 +40,7 @@ function renderNodeChildren(children, parent) {
 
 function renderNode(vnode) {
   const type = typeof vnode
-  // vnode.id = uuidV4()
+  // vnode.id = v4()
 
   let el
   if (type === 'string') {
@@ -55,3 +57,5 @@ function renderNode(vnode) {
 
   return el
 }
+
+export default renderNode

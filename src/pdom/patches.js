@@ -1,3 +1,6 @@
+import { CREATE_NODE, REMOVE_NODE, REPLACE_NODE, SET_ATTR, REMOVE_ATTR } from './batch'
+import renderNode, { parseAttributeName, setAttribute } from './renderNode'
+
 function logPatch(type, payload) {
   console.log(`PATCH - ${type}:`, payload)
 }
@@ -51,3 +54,5 @@ function patches(queue) {
     console.timeEnd('Patches in')
   }
 }
+
+export default patches

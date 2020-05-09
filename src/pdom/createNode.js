@@ -1,11 +1,9 @@
-const flatArray = arr => [].concat.apply([], arr)
-
-const hasOwnProperty = (obj, name) => Object.prototype.hasOwnProperty.call(obj, name)
+import { hasOwnProperty, flatArray } from './utils'
 
 const KEY_ATTR_NAME = 'key'
 const NAMESPACE_ATTR_NAME = 'namespace'
 
-const createNode = (nodeName, attributes, ...children) => {
+export const createNode = (nodeName, attributes, ...children) => {
   let attrs = attributes || {}
   let key = null
   if (hasOwnProperty(attrs, KEY_ATTR_NAME)) {
@@ -20,7 +18,7 @@ const createNode = (nodeName, attributes, ...children) => {
   return { nodeName, key, namespace, attributes: (attributes || {}), children: flatArray(children) }
 }
 
-const nativeNode = (tagName) => (attributes, ...children) => createNode(tagName, attributes, ...children)
+export const nativeNode = (tagName) => (attributes, ...children) => createNode(tagName, attributes, ...children)
 
 const NATIVE_NODES = ['div', 'a', 'p', 'ul', 'li', 'header', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'aside', 'section', 'main', 'form', 'input', 'button']
 
