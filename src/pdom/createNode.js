@@ -15,11 +15,37 @@ export const createNode = (nodeName, attributes, ...children) => {
     key = attrs[NAMESPACE_ATTR_NAME]
     delete attrs[NAMESPACE_ATTR_NAME]
   }
-  return { nodeName, key, namespace, attributes: (attributes || {}), children: flatArray(children) }
+  return {
+    nodeName,
+    key,
+    namespace,
+    attributes: (attributes || {}),
+    children: flatArray(children)
+  }
 }
 
-export const nativeNode = (tagName) => (attributes, ...children) => createNode(tagName, attributes, ...children)
+export const nativeNode = tagName => (attributes, ...children) => createNode(tagName, attributes, ...children)
 
-const NATIVE_NODES = ['div', 'a', 'p', 'ul', 'li', 'header', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'aside', 'section', 'main', 'form', 'input', 'button']
+const NATIVE_NODE_TAGS = [
+  'header',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'div',
+  'aside',
+  'section',
+  'main',
+  'a',
+  'p',
+  'ol',
+  'ul',
+  'li',
+  'form',
+  'input',
+  'button'
+]
 
-NATIVE_NODES.forEach(tagName => (nativeNode[tagName] = nativeNode(tagName)))
+NATIVE_NODE_TAGS.forEach(tagName => (nativeNode[tagName] = nativeNode(tagName)))
