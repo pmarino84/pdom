@@ -1,5 +1,11 @@
-import { nativeNode } from '../pdom/createNode'
+import PDOM from '../pdom'
 
-const Timer = (currentTime) => nativeNode.div({ className: 'timer' }, currentTime)
+const Timer = ({ currentTime }) => {
+  return (
+    <p className="timer">
+      {currentTime}
+    </p>
+  )
+}
 
 export default Timer

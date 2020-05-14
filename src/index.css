@@ -1,11 +1,7 @@
 html,
 body,
 .app,
-.app-header,
-.app-header__title,
-.timer,
-.todo-list,
-.todo-list__item {
+.timer {
   box-sizing: border-box;
 }
 
@@ -24,11 +20,19 @@ body {
   background-color: green;
 }
 
+.fg-red {
+  color: red;
+}
+
+.fg-green {
+  color: green;
+}
+
 .app {
   height: 100vh;
 }
 
-.app-header__title {
+.page-title {
   margin: 0;
   padding: 8px 16px;
   text-align: center;
@@ -38,8 +42,4 @@ body {
   padding: 16px;
   font-weight: 500;
   font-size: 2rem;
-}
-
-.app--stopped  .app-header__title {
-  color: rgba(255, 0, 0, .9);
 }

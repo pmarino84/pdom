@@ -1,0 +1,1 @@
+export const TEXT_NODE_NAME = 'text'

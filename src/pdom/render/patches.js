@@ -1,8 +1,9 @@
-import { CREATE_NODE, REMOVE_NODE, REPLACE_NODE, SET_ATTR, REMOVE_ATTR } from './batch'
-import renderNode, { parseAttributeName, setAttribute } from './renderNode'
+import { CREATE_NODE, REMOVE_NODE, REPLACE_NODE, SET_ATTR, REMOVE_ATTR } from './actions'
+import mount from './mount'
+import { setAttribute, parseAttributeName } from './setAttributes'
 
 function logPatch(type, payload) {
-  console.log(`PATCH - ${type}:`, payload)
+  console.warn(`PATCH - ${type}:`, payload)
 }
 
 function applyPatch(patch) {
@@ -12,12 +13,12 @@ function applyPatch(patch) {
     case CREATE_NODE:
       {
         const { el, node } = payload
-        el.appendChild(renderNode(node))
+        el.appendChild(mount(node))
       }
       break
     case REMOVE_NODE:
       {
-        // rimuovere i listener agli eventi
+        // TODO: rimuovere i listener agli eventi
         const { el } = payload
         const parent = el.parentNode
         parent.removeChild(el)
@@ -25,10 +26,11 @@ function applyPatch(patch) {
       break
     case REPLACE_NODE:
       {
-        // rimuovere i listener agli eventi prima di rimpiazzare
-        const { el, newNode } = payload
+        // TODO: rimuovere i listener agli eventi
+        const { el, nextNode } = payload
         const parent = el.parentNode
-        parent.replaceChild(renderNode(newNode), el)
+        const nextEl = mount(nextNode)
+        parent.replaceChild(nextEl, el)
       }
       break
     case SET_ATTR:
@@ -43,16 +45,14 @@ function applyPatch(patch) {
         el.removeAttribute(parseAttributeName(name))
       }
       break
+    default:
+      console.warn(`Patch ${type} not processed`)
   }
 }
 
 function patches(queue) {
   let patch = null
-  if (queue && queue.length) {
-    console.time('Patches in')
-    while ((patch = queue.shift())) applyPatch(patch)
-    console.timeEnd('Patches in')
-  }
+  if (queue && queue.length) while ((patch = queue.pop())) applyPatch(patch)
 }
 
 export default patches

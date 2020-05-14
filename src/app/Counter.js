@@ -1,5 +1,7 @@
-import { nativeNode } from '../pdom/createNode'
+import PDOM from '../pdom'
 
-const Counter = (count) => nativeNode.div({ className: 'counter' }, 'Count: ', count.toString())
+const Counter = ({count}) => (
+  <div className="counter">Count: {count}</div>
+)
 
 export default Counter
