@@ -7,5 +7,5 @@ export const REMOVE_ATTR = 'REMOVE_ATTR'
 export const batchCreateNode = (el, node) => ({ type: CREATE_NODE, payload: { el, node } })
 export const batchRemoveNode = (el, node) => ({ type: REMOVE_NODE, payload: { el, node } })
 export const batchReplaceNode = (el, prevNode, nextNode) => ({ type: REPLACE_NODE, payload: { el, prevNode, nextNode } })
-export const batchRemoveAttr = (el, name) => ({ type: REMOVE_ATTR, payload: { el, name } })
-export const batchSetAttr = (el, name, value) => ({ type: SET_ATTR, payload: { el, name, value } })
+export const batchRemoveAttr = (el, name, nextNode) => ({ type: REMOVE_ATTR, payload: { el, name, nextNode } })
+export const batchSetAttr = (el, name, value, nextNode) => ({ type: SET_ATTR, payload: { el, name, value, nextNode } })

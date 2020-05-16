@@ -9,24 +9,20 @@ function diff(prev, next) {
     (isVirtualTextNode(prev) && prev.attrs.textContent !== next.attrs.textContent)
 }
 
-function batchAttributesChanges(prev, nextNode, element, queue) {
+function batchAttributesChanges(prevAttrs, nextNode, element, queue) {
   let nextAttrs = nextNode.attrs
-  let names = Object.keys(Object.assign({}, prev, nextAttrs))
-  let changed = false
+  let names = Object.keys(Object.assign({}, prevAttrs, nextAttrs))
   names.forEach(name => {
     if (name !== 'children') {
-      let prevValue = prev[name]
+      let prevValue = prevAttrs[name]
       let nextValue = nextAttrs[name]
       if (!nextValue) {
-        queue.push(batchRemoveAttr(element, name))
-        changed = true
+        queue.push(batchRemoveAttr(element, name, nextNode))
       } else if (!prevValue || prevValue !== nextValue) {
-        queue.push(batchSetAttr(element, name, nextValue))
-        changed = true
+        queue.push(batchSetAttr(element, name, nextValue, nextNode))
       }
     }
   })
-  if(changed) element._vNode = nextNode
 }
 
 function batchChildrenChanges(nextChildren, parent, queue = []) {

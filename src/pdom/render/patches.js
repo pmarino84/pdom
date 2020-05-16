@@ -35,14 +35,16 @@ function applyPatch(patch) {
       break
     case SET_ATTR:
       {
-        const { el, name, value } = payload
+        const { el, name, value, nextNode } = payload
         setAttribute(el, name, value)
+        el._vNode = nextNode
       }
       break
     case REMOVE_ATTR:
       {
-        const { el, name } = payload
+        const { el, name, nextNode } = payload
         el.removeAttribute(parseAttributeName(name))
+        el._vNode = nextNode
       }
       break
     default:
