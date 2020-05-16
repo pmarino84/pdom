@@ -14,6 +14,7 @@ const NATIVE_NODE_TAGS = [
   'h6',
   'div',
   'aside',
+  'article',
   'section',
   'main',
   'a',
