@@ -1,41 +1,11 @@
 import PDOM, { render } from './pdom'
-// import App from './app/App'
+import App from './app/App'
 import './index.css'
 
-// STEP 0: render static virtual element
-// const step0 = <div className="app">
-//   <h1 className="title">Virtual DOM</h1>
-//   <p className="counter">Count: NONE</p>
-// </div>
-
-// window.addEventListener('load', () => {
-//   let container = document.getElementById('root')
-//   render(step0, container)
-// })
-
-// STEP 1: render dinamic virtual element
-const STEP_1_DELAY = 3000
-let step1Count = 0
-const step1 = (count) => <div className="app">
-  <h1 className="page-title">Virtual DOM</h1>
-  <p className={count % 2 ? 'fg-red' : 'fg-green'}>Count: {count}</p>
-</div>
-
-const updateUI = (count, container) => render(step1(count), container)
-
-function run(container) {
-  updateUI(step1Count, container)
-  let intervalId = setInterval(() => {
-    updateUI(++step1Count, container)
-  }, STEP_1_DELAY)
-  return () => clearInterval(intervalId)
-}
-
-window.stopApp = () => { }
-
+// STEP 2: Static function component
 window.addEventListener('load', () => {
   let container = document.getElementById('root')
-  window.stopApp = run(container)
+  render(<App />, container)
 })
 
 // function getCurrentTime() {

@@ -1,5 +1,5 @@
 import PDOM from '../pdom'
-import Counter from './Counter'
+// import Counter from './Counter'
 // import Timer from './Timer'
 
 // const App = ({ count, currentTime }) => {
@@ -12,11 +12,19 @@ import Counter from './Counter'
 //   )
 // }
 
-const App = ({ count }) => {
+// const App = ({ count }) => {
+//   return (
+//     <div className="app">
+//       <h1 className="page-title">Virtual DOM</h1>
+//       <Counter count={count} />
+//     </div>
+//   )
+// }
+
+const App = ({ }) => {
   return (
     <div className="app">
-      <h1 className="page-title">Virtual DOM</h1>
-      <Counter count={count} />
+      <h1 className="page-title">Virtual DOM - Step 2</h1>
     </div>
   )
 }
