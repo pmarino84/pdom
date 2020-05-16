@@ -1,5 +1,5 @@
 import { batchCreateNode, batchRemoveNode, batchReplaceNode, batchRemoveAttr, batchSetAttr } from './actions'
-import { /* isFunction, */ isVirtualTextNode } from '../utils'
+import { isFunction, isVirtualTextNode } from '../utils'
 
 function diff(prev, next) {
   const prevType = typeof prev
@@ -40,26 +40,17 @@ function batchChildrenChanges(nextChildren, parent, queue = []) {
       crossTheTree(prevNode, nextNode, el, queue)
     }
   }
-  // if (oLen === nLen) {
-  //   prev.forEach((child, i) => traverse(child, next[i], el, queue, i))
-  // } else {
-  //   console.error('batch children changes with different length: ', { prev, next, el, el })
-  // }
 }
 
 function crossTheTree(prevNode, nextNode, element, queue) {
-  // const { tagName, attrs } = nextNode
-  // let next = null
-  // if (isFunction(tagName)) {
-  //   next = tagName(attrs)
-  // } else {
-  //   next = nextNode
-  // }
-
+  const { tagName, attrs } = nextNode
   if (!prevNode) {
     queue.push(batchCreateNode(element, nextNode))
   } else if (!nextNode) {
     queue.push(batchRemoveNode(element, prevNode, nextNode))
+  } else if (isFunction(tagName)) {
+    const v = tagName(attrs)
+    crossTheTree(prevNode, v, element, queue)
   } else if (diff(prevNode, nextNode)) {
     queue.push(batchReplaceNode(element, prevNode, nextNode))
   } else {

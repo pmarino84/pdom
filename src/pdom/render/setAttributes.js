@@ -20,6 +20,6 @@ export function setAttribute(el, attrName, value) {
 
 export default function setAttributes(el, attributes) {
   for (let key in attributes) {
-    setAttribute(el, key, attributes[key])
+    if(key !== 'children') setAttribute(el, key, attributes[key])
   }
 }
