@@ -1,5 +1,5 @@
 import PDOM, { render } from './pdom'
-import App from './app/App'
+import App from './app/App.step4'
 import './index.css'
 
 // STEP 4: Static class component

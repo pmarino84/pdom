@@ -1,4 +1,4 @@
-import { isVirtualTextNode, isFunction } from '../utils'
+import { isVirtualTextNode, isFunction, isComponent } from '../utils'
 import setAttributes from './setAttributes'
 
 function mountChildren(children, container) {
@@ -16,8 +16,15 @@ export default function mount(vNode, container) {
   if (isVirtualTextNode(vNode)) {
     el = document.createTextNode(attrs && attrs.textContent)
   } else if (isFunction(tagName)) {
-    const v = tagName(attrs)
-    mount(v, container)
+    let compiled = null
+    if (isComponent(tagName)) {
+      let instance = new tagName(attrs)
+      compiled = instance.render(attrs)
+      compiled._component = instance
+    } else {
+      compiled = tagName(attrs)
+    }
+    mount(compiled, container)
   } else {
     el = document.createElement(tagName)
     setAttributes(el, attrs) // gli unici che possono farlo

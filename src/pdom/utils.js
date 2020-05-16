@@ -7,3 +7,5 @@ export const hasOwnProperty = (obj, name) => Object.prototype.hasOwnProperty.cal
 export const isFunction = obj => (obj && typeof obj === 'function')
 
 export const isVirtualTextNode = vNode => vNode.tagName === TEXT_NODE_NAME
+
+export const isComponent = tagName => hasOwnProperty(tagName.prototype, 'render')
