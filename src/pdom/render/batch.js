@@ -9,36 +9,39 @@ function diff(prev, next) {
     (isVirtualTextNode(prev) && prev.attrs.textContent !== next.attrs.textContent)
 }
 
-function batchAttributesChanges(prev, next, element, queue) {
-  let names = Object.keys(Object.assign({}, prev, next))
+function batchAttributesChanges(prev, nextNode, element, queue) {
+  let nextAttrs = nextNode.attrs
+  let names = Object.keys(Object.assign({}, prev, nextAttrs))
+  let changed = false
   names.forEach(name => {
     if (name !== 'children') {
       let prevValue = prev[name]
-      let nextValue = next[name]
+      let nextValue = nextAttrs[name]
       if (!nextValue) {
         queue.push(batchRemoveAttr(element, name))
+        changed = true
       } else if (!prevValue || prevValue !== nextValue) {
         queue.push(batchSetAttr(element, name, nextValue))
+        changed = true
       }
     }
   })
+  if(changed) element._vNode = nextNode
 }
 
-function batchChildrenChanges(prev, next, parent, queue = []) {
-  const oLen = prev.length
-  const nLen = next.length
+function batchChildrenChanges(nextChildren, parent, queue = []) {
   const childNodes = parent.childNodes
-  const len = Math.max(oLen, nLen)
+  const nLen = nextChildren.length
+  const len = Math.max(childNodes.length, nLen)
   for (let i = 0; i < len; i++) {
     const el = childNodes[i]
-    let prevChild = prev[i] // potrebbe essere una funzione
-    // if (isFunction(prevChild.tagName)) prevChild = el._vNode
-    let nextChild = next[i]
-    if (Array.isArray(prevChild)) {
-      console.warn('Batch - Traverse children - child as list under implementation: ', { prevChild, nextChild, el, parent })
-      batchChildrenChanges(prevChild, nextChild, parent, queue)
+    let prevNode = el._vNode
+    let nextNode = nextChildren[i]
+    if (Array.isArray(prevNode)) {
+      console.warn('Batch - Traverse children - child as list under implementation: ', { prevNode, nextNode, el, parent })
+      batchChildrenChanges(nextNode, parent, queue)
     } else {
-      traverse(prevChild, nextChild, el, queue)
+      crossTheTree(prevNode, nextNode, el, queue)
     }
   }
   // if (oLen === nLen) {
@@ -48,7 +51,7 @@ function batchChildrenChanges(prev, next, parent, queue = []) {
   // }
 }
 
-function traverse(prevNode, nextNode, element, queue) {
+function crossTheTree(prevNode, nextNode, element, queue) {
   // const { tagName, attrs } = nextNode
   // let next = null
   // if (isFunction(tagName)) {
@@ -64,15 +67,14 @@ function traverse(prevNode, nextNode, element, queue) {
   } else if (diff(prevNode, nextNode)) {
     queue.push(batchReplaceNode(element, prevNode, nextNode))
   } else {
-    batchAttributesChanges(prevNode.attrs, nextNode.attrs, element, queue)
-    batchChildrenChanges(prevNode.children, nextNode.children, element, queue)
+    batchAttributesChanges(prevNode.attrs, nextNode, element, queue)
+    batchChildrenChanges(nextNode.children, element, queue)
   }
-  element._vNode = nextNode
 }
 
 export default function batch(nextNode, element) {
   let prevNode = element._vNode
   let queue = []
-  traverse(prevNode, nextNode, element, queue)
+  crossTheTree(prevNode, nextNode, element, queue)
   return queue
 }

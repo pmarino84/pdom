@@ -7,11 +7,11 @@ function updateView(vNode, oldEl) {
   const queue = batch(vNode, oldEl)
   console.timeEnd('Batch changes')
   
-  setTimeout(() => {
+  // setTimeout(() => {
     console.time('Patches in')
     patches(queue)
     console.timeEnd('Patches in')
-  })
+  // })
 }
 
 export default function render(vNode, container) {
@@ -22,6 +22,8 @@ export default function render(vNode, container) {
     mount(vNode, container)
     console.timeEnd('First render')
   } else {
+    console.time('Updated view in')
     updateView(vNode, el)
+    console.timeEnd('Updated view in')
   }
 }
